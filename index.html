@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panda Clicker Game</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f8f8f8;
+        }
+        #game {
+            margin: 20px auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            background-color: white;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div id="game">
+        <h1>Panda Clicker</h1>
+        <p id="panda-count">Pandas: 0</p>
+        <button id="click-button">Click Me!</button>
+        <h2>Upgrades</h2>
+        <button id="upgrade-button">Buy Upgrade (Cost: 50 pandas)</button>
+        <h2>Prestige System</h2>
+        <button id="prestige-button">Prestige (Reset for double pandas)</button>
+        <h2>Snake Game</h2>
+        <button id="snake-game-button">Play Snake Game</button>
+        <p id="message"></p>
+    </div>
+
+    <script>
+        let pandaCount = 0;
+        let upgradeCost = 50;
+        let upgrades = 0;
+
+        document.getElementById('click-button').onclick = function() {
+            pandaCount++;
+            document.getElementById('panda-count').innerText = `Pandas: ${pandaCount}`;
+        };
+
+        document.getElementById('upgrade-button').onclick = function() {
+            if (pandaCount >= upgradeCost) {
+                pandaCount -= upgradeCost;
+                upgrades++;
+                upgradeCost *= 2;
+                document.getElementById('panda-count').innerText = `Pandas: ${pandaCount}`;
+                document.getElementById('message').innerText = `Upgrades: ${upgrades}`;
+            } else {
+                alert('Not enough pandas!');
+            }
+        };
+
+        document.getElementById('prestige-button').onclick = function() {
+            if (pandaCount > 0) {
+                pandaCount = 0;
+                upgrades = 0;
+                upgradeCost = 50;
+                document.getElementById('panda-count').innerText = `Pandas: ${pandaCount}`;
+                document.getElementById('message').innerText = 'Prestige achieved! Double your pandas next run!';
+            } else {
+                alert('No pandas to prestige!');
+            }
+        };
+
+        document.getElementById('snake-game-button').onclick = function() {
+            // Add snake game code here
+            alert('Snake game functionality coming soon!');
+        };
+    </script>
+</body>
+</html>
