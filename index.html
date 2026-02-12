@@ -4,78 +4,90 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Panda Clicker Game</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            background-color: #f8f8f8;
-        }
-        #game {
-            margin: 20px auto;
-            padding: 20px;
-            border: 1px solid #ccc;
-            border-radius: 10px;
-            background-color: white;
-        }
-        button {
-            padding: 10px 20px;
-            font-size: 16px;
-            cursor: pointer;
-        }
-    </style>
+    <link rel="stylesheet" href="styles.css">
+    <script src="script.js" defer></script>
 </head>
 <body>
     <div id="game">
-        <h1>Panda Clicker</h1>
+        <h1>Panda Clicker Game</h1>
         <p id="panda-count">Pandas: 0</p>
-        <button id="click-button">Click Me!</button>
-        <h2>Upgrades</h2>
-        <button id="upgrade-button">Buy Upgrade (Cost: 50 pandas)</button>
-        <h2>Prestige System</h2>
-        <button id="prestige-button">Prestige (Reset for double pandas)</button>
-        <h2>Snake Game</h2>
-        <button id="snake-game-button">Play Snake Game</button>
-        <p id="message"></p>
+        <button id="click-panda">Click the Panda!</button>
+        <div id="upgrades">
+            <h2>Upgrades</h2>
+            <ul id="upgrade-list"></ul>
+        </div>
+        <div id="prestige">
+            <h2>Prestige</h2>
+            <button id="prestige-button" disabled>Prestige</button>
+        </div>
+        <div id="mini-game">
+            <h2>Snake Mini-Game</h2>
+            <canvas id="snake-canvas"></canvas>
+            <button id="start-snake">Start Snake Game</button>
+        </div>
+        <div id="secret-easter-egg">
+            <p id="easter-egg-msg" style="display:none;">You found the secret Dylanismajestic egg!</p>
+        </div>
     </div>
-
     <script>
+        // Game Variables
         let pandaCount = 0;
-        let upgradeCost = 50;
-        let upgrades = 0;
+        let upgrades = [];
+        let prestigePoints = 0;
+        let snakeGameActive = false;
 
-        document.getElementById('click-button').onclick = function() {
-            pandaCount++;
+        // Function Definitions
+        function updatePandaCount() {
             document.getElementById('panda-count').innerText = `Pandas: ${pandaCount}`;
-        };
+        }
 
-        document.getElementById('upgrade-button').onclick = function() {
-            if (pandaCount >= upgradeCost) {
-                pandaCount -= upgradeCost;
-                upgrades++;
-                upgradeCost *= 2;
-                document.getElementById('panda-count').innerText = `Pandas: ${pandaCount}`;
-                document.getElementById('message').innerText = `Upgrades: ${upgrades}`;
-            } else {
-                alert('Not enough pandas!');
-            }
-        };
+        function clickPanda() {
+            pandaCount++;
+            updatePandaCount();
+            checkForEasterEgg();
+        }
 
-        document.getElementById('prestige-button').onclick = function() {
-            if (pandaCount > 0) {
+        function addUpgrade(name, cost) {
+            upgrades.push({ name, cost });
+            renderUpgrades();
+        }
+
+        function renderUpgrades() {
+            const upgradeList = document.getElementById('upgrade-list');
+            upgradeList.innerHTML = '';
+            upgrades.forEach((upgrade, index) => {
+                const li = document.createElement('li');
+                li.innerText = `${upgrade.name} - Cost: ${upgrade.cost}`;
+                upgradeList.appendChild(li);
+            });
+        }
+
+        function prestige() {
+            if (pandaCount >= 100) {
+                prestigePoints += 1;
                 pandaCount = 0;
-                upgrades = 0;
-                upgradeCost = 50;
-                document.getElementById('panda-count').innerText = `Pandas: ${pandaCount}`;
-                document.getElementById('message').innerText = 'Prestige achieved! Double your pandas next run!';
-            } else {
-                alert('No pandas to prestige!');
+                updatePandaCount();
             }
-        };
+        }
 
-        document.getElementById('snake-game-button').onclick = function() {
-            // Add snake game code here
-            alert('Snake game functionality coming soon!');
-        };
+        function checkForEasterEgg() {
+            if (pandaCount >= 171) {
+                document.getElementById('easter-egg-msg').style.display = 'block';
+            }
+        }
+
+        // Event Listeners
+        document.getElementById('click-panda').addEventListener('click', clickPanda);
+        document.getElementById('prestige-button').addEventListener('click', prestige);
+        document.getElementById('start-snake').addEventListener('click', () => {
+            snakeGameActive = true;
+            startSnakeGame();
+        });
+
+        // Snake Game Logic
+        function startSnakeGame() {
+            // Implement snake game logic here
+        }
     </script>
 </body>
 </html>
